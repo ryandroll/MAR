@@ -1,0 +1,3 @@
+Get root patch from OpenSUSE, so update with OpenSUSE
+Website: http://download.opensuse.org/repositories/KDE:/Applications/openSUSE_Factory_standard/src/
+extract source RPM file to get .patch

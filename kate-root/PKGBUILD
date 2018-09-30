@@ -1,0 +1,67 @@
+# Maintainer: David P. <megver83@parabola.nu>
+# Contributor: Felix Yan <felixonmars@archlinux.org>
+# Contributor: Antonio Rojas <arojas@archlinux.org>
+# Contributor: Andrea Scarpino <andrea@archlinux.org>
+
+pkgbase=kate-root
+_pkgbase=${pkgbase/-root}
+pkgname=('kwrite-root'
+         'kate-root')
+pkgver=18.08.1
+pkgrel=1
+arch=(x86_64)
+license=(LGPL)
+makedepends=(extra-cmake-modules kdoctools plasma-framework knewstuff ktexteditor threadweaver kitemmodels kactivities)
+source=("https://download.kde.org/stable/applications/${pkgver}/src/${_pkgbase}-${pkgver}.tar.xz")
+sha256sums=('4afb79472935ed172e74a72e0008a0b9078523a07d831e16736638e7a4994dcb')
+
+prepare() {
+  mkdir -p build
+  cd $srcdir/${_pkgbase}-${pkgver}
+  patch -p1 -i $srcdir/0001-Defuse-root-block.patch
+}
+
+build() {
+  cd build
+  cmake ../${_pkgbase}-${pkgver} \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DBUILD_TESTING=OFF
+  make
+}
+
+package_kwrite-root() {
+  pkgdesc="Text Editor, patched to be able to run as root"
+  url="https://www.kde.org/applications/utilities/kwrite/"
+  depends=('ktexteditor' 'kactivities' 'hicolor-icon-theme')
+  replaces=('kdebase-kwrite' 'kwrite')
+  conflicts=('kdebase-kwrite' 'kwrite')
+  provides=('kdebase-kwrite' 'kwrite')
+
+  cd build
+  make DESTDIR="${pkgdir}" install
+
+  find "$pkgdir" -type f -name '*kate*' -exec rm {} \;
+  rm -r "$pkgdir"/usr/lib/qt/plugins/ktexteditor \
+        "$pkgdir"/usr/share/doc/HTML/*/{kate,katepart} \
+        "$pkgdir"/usr/share/katexmltools \
+        "$pkgdir"/usr/share/locale/*/LC_MESSAGES/{kterustcompletion,tabswitcherplugin,ktexteditorpreviewplugin}.mo \
+        "$pkgdir"/usr/share/plasma/plasmoids
+}
+
+package_kate-root() {
+  pkgdesc="Advanced Text Editor, patched to be able to run as root"
+  url="https://www.kde.org/applications/utilities/kate/"
+  depends=('knewstuff' 'ktexteditor' 'threadweaver' 'kitemmodels' 'kactivities' 'hicolor-icon-theme')
+  replaces=('kdesdk-kate' 'kate')
+  conflicts=('kdesdk-kate' 'kate')
+  provides=('kdesdk-kate' 'kate')
+  optdepends=('konsole: open a terminal in Kate')
+
+  cd build
+  make DESTDIR="${pkgdir}" install
+
+  find "$pkgdir" -type f -name '*kwrite*' -exec rm {} \;
+  rm -r "$pkgdir"/usr/share/doc/HTML/*/kwrite
+}
