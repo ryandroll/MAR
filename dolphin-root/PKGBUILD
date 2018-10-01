@@ -19,8 +19,10 @@ optdepends=('kde-cli-tools: for editing file type options' 'ffmpegthumbs: video 
             'konsole: terminal panel' 'purpose: share context menu')
 conflicts=($_pkgname)
 provides=($_pkgname)
-source=("https://download.kde.org/stable/applications/$pkgver/src/${_pkgname}-$pkgver.tar.xz")
-sha256sums=('d29f2cb3db040f042d4a0c8fcc6712e55d350bb77e3527c1b7b5bc59c2081cb9')
+source=("https://download.kde.org/stable/applications/$pkgver/src/${_pkgname}-$pkgver.tar.xz"
+        "0001-Revert-Disallow-executing-Dolphin-as-root-on-Linux.patch")  # Direct get from OpenSUSE, see README
+sha256sums=('d29f2cb3db040f042d4a0c8fcc6712e55d350bb77e3527c1b7b5bc59c2081cb9'
+            'SKIP')
 
 prepare() {
   mkdir -p build
