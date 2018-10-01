@@ -12,8 +12,10 @@ pkgrel=1
 arch=(x86_64)
 license=(LGPL)
 makedepends=(extra-cmake-modules kdoctools plasma-framework knewstuff ktexteditor threadweaver kitemmodels kactivities)
-source=("https://download.kde.org/stable/applications/${pkgver}/src/${_pkgbase}-${pkgver}.tar.xz")
-sha256sums=('4afb79472935ed172e74a72e0008a0b9078523a07d831e16736638e7a4994dcb')
+source=("https://download.kde.org/stable/applications/${pkgver}/src/${_pkgbase}-${pkgver}.tar.xz"
+        "0001-Defuse-root-block.patch")      # Direct get from OpenSUSE, see README
+sha256sums=('4afb79472935ed172e74a72e0008a0b9078523a07d831e16736638e7a4994dcb'
+            'SKIP')
 
 prepare() {
   mkdir -p build
