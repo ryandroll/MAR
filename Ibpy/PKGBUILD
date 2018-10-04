@@ -1,0 +1,22 @@
+# Contributor: blampe
+
+pkgname=IbPy
+pkgver=0.8.0
+pkgrel=1
+pkgdesc="Python API for the Interactive Brokers on-line trading system. "
+arch=(any)
+url="https://github.com/blampe/IbPy"
+license=('APACHE')
+depends=('python')
+source=(https://github.com/blampe/IbPy/archive/v${pkgver}.tar.gz)
+sha256sums=("faaa5d25c28370da3e0f4dac8126a22477bac6cd85e55d48174ec6e5e35ee034")
+
+build() {
+  cd "${srcdir}/Ibpy-${pkgver}"
+  python setup.py build
+}
+
+package() {
+  cd "${srcdir}/Ibpy-${pkgver}"
+  python setup.py install -O1 --root="${pkgdir}" --prefix=/usr
+}
