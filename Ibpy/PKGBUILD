@@ -12,11 +12,11 @@ source=(https://github.com/blampe/IbPy/archive/v${pkgver}.tar.gz)
 sha256sums=("faaa5d25c28370da3e0f4dac8126a22477bac6cd85e55d48174ec6e5e35ee034")
 
 build() {
-  cd "${srcdir}/Ibpy-${pkgver}"
+  cd "${srcdir}/${pkgname}-${pkgver}"
   python setup.py build
 }
 
 package() {
-  cd "${srcdir}/Ibpy-${pkgver}"
+  cd "${srcdir}/${pkgname}-${pkgver}"
   python setup.py install -O1 --root="${pkgdir}" --prefix=/usr
 }
